@@ -1,0 +1,84 @@
+//solution 1:with an array.
+ALGORITHM sum of distinct elements 
+VAR
+    set1: ARRAY_OF INTEGER[n1];
+    set2 : ARRAY_OF INTEGER [n2];
+    somme, i, j, n1, n2:INTEGER;
+BEGIN
+REPEAT
+    write("enter the length of set 1")
+    read (n1)
+    write("enter the length of set 2")
+    read(n2)
+UNTIL (n1>0 and n2>0)
+FOR i FROM 0 TO n1-1 STEP 1  DO
+    write("donner l'élément du tableau 1")
+    read(set1[i])
+END_FOR
+FOR j FROM 0 TO n2-1 STEP 1  DO
+    write("donner l'élément du tableau 2")
+    read(set2[j])
+END_FOR
+somme:=0;
+FOR i FROM 0 TO n1-1 STEP 1  DO
+    j:=0;
+    WHILE (set1[i]<>set2[j] and j<=n2) DO
+        j:=j+1;
+    END_WHILE
+    IF (j=n2) THEN
+        somme=somme+set1[i];
+    END_IF
+END_FOR
+FOR j FROM 0 TO n2-1 STEP 1 DO
+    i:=0;
+    WHILE (set2[j]<>set1[i]) DO
+    i:=i+1;
+    END_WHILE
+    IF (i=n1) THEN
+        somme=somme+set2[j];
+    END_IF
+END_FOR
+write(somme)
+END
+//solution 2:with an hash table.
+ALGORITHM sum of distinct elements
+VAR
+    set1: ARRAY_OF INTEGER[n1];
+    set2 : ARRAY_OF INTEGER [n2];
+      HASH_TABLE< INTEGER,INTEGER>;
+      arr : ARRAY_OF integer[];
+    somme,j, i, n1, n2:INTEGER;
+BEGIN
+REPEAT
+    write("enter the length of set 1")
+    read (n1)
+    write("enter the length of set 2")
+    read(n2)
+UNTIL (n1>0 and n2>0)
+FOR i FROM 0 TO n1-1 STEP 1  DO
+    write("donner l'élément du tableau 1")
+    read(set1[i])
+END_FOR
+FOR j FROM 0 TO n2-1 STEP 1  DO
+    write("donner l'élément du tableau 2")
+    read(set2[j])
+END_FOR
+FOR i FROM 0 TO n1-1 STEP 1  DO
+     htab.insert(set1[i],1);
+END_FOR
+FOR i FROM 0 TO n2-1 STEP 1  DO
+    IF (htab.lookup(set2[i])=true) THEN
+        count:=htab.get(set2[i]);
+        htab.insert(set2[i],count+1);
+    ELSE
+        htab.insert(set2[i],1);
+    END_IF
+END_FOR
+arr:=htab.getkeys();
+somme:=0;
+FOR i FROM 0 TO arr.length-1 STEP 1 DO
+    IF (htab.get(arr[i])=1) THEN
+        somme=somme+arr[i];
+    END_IF 
+END_FOR    
+END
